@@ -2,9 +2,10 @@
 
 package script.v2
 
+import com.sap.it.script.v2.api.Message;
 import com.sap.it.api.ITApiFactory;
 import com.sap.it.api.securestore.SecureStoreService;
-import com.sap.it.script.v2.api.Message;
+import com.sap.it.api.securestore.exception.CredentialNotFoundException;
 
 //
 // accessSecureStoreService.groovy
@@ -14,6 +15,10 @@ import com.sap.it.script.v2.api.Message;
 //
 // The original version is from kaushik ganguly 
 // https://gist.github.com/kgsnipes
+//
+// com.sap.it.api
+//		Interface ITApi
+// https://help.sap.com/doc/471310fc71c94c2d913884e2ff1b4039/Cloud/en-US/com/sap/it/api/ITApi.html
 //
 // This script will give you an error message with high severity:
 // ========================================================================== 
@@ -29,7 +34,7 @@ def Message processData(Message message) {
     //Name of secure parameter
     def credential = service.getUserCredential("XXX"); 
     if (credential == null) { 
-        throw new IllegalStateException("No credential found for alias 'XXX'");             
+        throw new CredentialNotFoundException("No credential found for alias 'XXX'");             
     } else {
         username = new String(credential.getUsername());
         password = new String(credential.getPassword());
